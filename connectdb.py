@@ -1,6 +1,7 @@
 import csv
 import sqlite3
 
+try:
 
 # open the connection to the database
 conn = sqlite3.connect('elecVehicle.db')
@@ -10,15 +11,25 @@ cur = conn.cursor()
 conn.execute('DROP TABLE IF EXISTS VehicleRegistration')
 print("table dropped successfully");
 
-# create table again
+# drop table 2 if it already exists
+conn.execute('DROP TABLE IF EXISTS VehicleAddress')
+print("table dropped successfully")
+
+
+# creating table1
 conn.execute('CREATE TABLE VehicleRegistration (Vehicle_ID TEXT PRIMARY KEY,  Year INTEGER, Company TEXT, Model TEXT, Vehicle_Type TEXT)')
 print("table created successfully");
 
-# open the file to read it into the database
-with open('ElectricVehical/ElectricVehiclePopulationData.csv', newline='') as f:
-    reader = csv.reader(f, delimiter=",")
-    next(reader) # skip the header line
-    for row in reader:
+# creating table2
+conn.execute('CREATE TABLE VehicleAddress (Idnum INTEGER PRIMARY KEY AUTOINCREMENT,Vehicle_ID TEXT, County TEXT, City TEXT, State TEXT, PostalCode TEXT)')
+print("table created successfully");
+
+   try:
+   #table1 insertion
+     with open('ElectricVehical/ElectricVehiclePopulationData.csv', newline='') as f:
+      reader = csv.reader(f, delimiter=",")
+      next(reader) # skip the header line
+      for row in reader:
         print(row)
 
         Vehicle_ID = row[13]
@@ -29,33 +40,36 @@ with open('ElectricVehical/ElectricVehiclePopulationData.csv', newline='') as f:
         
         cur.execute('INSERT INTO VehicleRegistration VALUES (?,?,?,?,?)', (Vehicle_ID, Year, Company, Model, Vehicle_Type))
         conn.commit()
+        print("data parsed successfully");
+
+    except:
+       print("Insertion Failed")
 
 
-# drop the data from the table so that if we rerun the file, we don't repeat values
-conn.execute('DROP TABLE IF EXISTS VehicleAddress')
-print("table dropped successfully");
 
-# create table again
-conn.execute('CREATE TABLE VehicleAddress (Idnum INTEGER PRIMARY KEY AUTOINCREMENT,Vehicle_ID TEXT, County TEXT, City TEXT, State TEXT, PostalCode TEXT)')
-print("table created successfully");
+    try:
+     # open the file to read it into the database
+     with open('ElectricVehical/ElectricVehiclePopulationData.csv', newline='') as f:
+       reader = csv.reader(f, delimiter=",")
+       next(reader) # skip the header line
+       for row in reader:
+          print(row)
 
-# open the file to read it into the database
-with open('ElectricVehical/ElectricVehiclePopulationData.csv', newline='') as f:
-    reader = csv.reader(f, delimiter=",")
-    next(reader) # skip the header line
-    for row in reader:
-        print(row)
+         Vehicle_ID = row[13]
+         County = row[1]
+         City = row[2]
+         State = row[3]
+         PostalCode = row[4]
 
-        Vehicle_ID = row[13]
-        County = row[1]
-        City = row[2]
-        State = row[3]
-        PostalCode = row[4]
-        
-        cur.execute('INSERT INTO VehicleAddress VALUES (NULL,?,?,?,?,?)', (Vehicle_ID, County, City, State, PostalCode))
+         #table2 insertion
+         cur.execute('INSERT INTO VehicleAddress VALUES (NULL,?,?,?,?,?)', (Vehicle_ID, County, City, State, PostalCode))
         conn.commit()
+        print("data parsed successfully");
 
-print("data parsed successfully");
+    except:
+      print("Insertion Failed")
+except:
+  print("Database Connection Failed")
 conn.close()
 
 

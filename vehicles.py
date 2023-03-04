@@ -10,11 +10,22 @@ def index():
 def display_result():
      
     v_id=request.args.get("v_id")
-        # open the connection to the database
-    conn = sqlite3.connect('elecVehicle.db')
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
-    cur.execute(f"select * from VehicleRegistration JOIN VehicleAddress ON VehicleRegistration.Vehicle_ID=VehicleAddress.Vehicle_ID WHERE VehicleRegistration.Vehicle_ID='{v_id}'")
-    rows = cur.fetchall()
-    conn.close()
-    return render_template('output.html', rows=rows)
+  
+    try:
+     # open the connection to the database
+     conn = sqlite3.connect('elecVehicle.db')
+     conn.row_factory = sqlite3.Row
+     cur = conn.cursor()
+
+    
+     cur.execute(f"select * from VehicleRegistration \
+     JOIN VehicleAddress \
+     ON VehicleRegistration.Vehicle_ID=VehicleAddress.Vehicle_ID WHERE VehicleRegistration.Vehicle_ID='{v_id}'")
+     rows = cur.fetchall()
+    
+    except:
+        print("Connecting Database Error")
+
+    finally:
+        conn.close()
+        return render_template('output.html', rows=rows)

@@ -1,25 +1,28 @@
-### What is this?
-This `README.md` file is auto-created for all new projects.
+#Commands used to build and connect the Application
 
-### Why am I here?
-This file opens automatically when you open a project. 
++This sets the local version of python to 3.7.9
+  pyenv local 3.7.9 
 
-If you do not create Guides, this `README.md` will be what automatically opens for students. You can edit this file by clicking on the pencil icon in the upper right corner.
++This creates the virtual environment for you
+  python3 -m venv .venv 
 
-### How do I get started with Codio?
-Use this [Onboarding Guide](https://codio.com/home/starter-packs/2ae8501b-e5f7-4b07-8e9f-adb155fc6d10) for an interactive tutorial through the main features of Codio. Click on the link, click **Use Pack** and then click **Create** to add it to your projects.
++This activates the virtual environment
+  source.venv/bin/activate 
 
-### How do I close this file?
-At the top of your workspace you will see tabs for each open file. Click the x on the right hand side of the tab that says **README.md**.
-![readMeTab](https://global.codio.com/platform/readme.resources/readMeTab.png)
++This installs pip, and upgrades it if required
+  pip install --upgrade pip 
 
-### I expected to see or edit learning materials.
-Select **Tools->Guide->Play** to view the Guide for this project.
-![playGuide](https://global.codio.com/platform/readme.resources/playGuide.png)
++To create web framework for the application
+  pip install flask
 
-Click on the **Open Guides Editor** icon to edit the Guide.
-![guideEdit](https://global.codio.com/platform/readme.resources/guideEdit.png)
++To create DB file
+  touch eleVehicle.db
 
-### How do I delete this file?
-To delete this `README.md` file, right-click (ctrl-click on a Mac) on the file name in the file list.
-![fileTree](https://global.codio.com/platform/readme.resources/fileTree.png)
++Running this in terminal for variables
+  export FLASK_APP=polar_bears.py
+  export FLASK_ENV=development
+  python3 -m flask run
+
+Successfully uploaded the app to render, below is the link regarding app
+  https://vehicledata2-test.onrender.com 
+(Deploying app was not Successfully done,due to some errors)
